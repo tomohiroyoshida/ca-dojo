@@ -1,0 +1,28 @@
+version: "3"
+services:
+  app:
+    build: .
+    command: /bin/sh -c "go run main.go"
+    tty: true
+    ports: 
+      - 8080:8080
+    volumes: 
+      - ./app:/go/src/app # https://docs.docker.com/compose/compose-file/compose-file-v3/#volumes
+    depends_on:
+      - mysql
+
+  mysql:
+    build: ./mysql # mysql/Dockerfile からビルド
+    volumes: 
+      - ./mysql/init:/docker-entrypoint-initdb.d # ./mysql/init ディレクトリを /docker-entrypoint-initdb.d にマウントする。 mysqlイメージの仕様からそこにある init.sql がコンテナ作成時に実行される
+      # - "./mysql/data:/var/lib/mysql" "mysql" コンテナは ./mysql/dataディレクトリを /var/lib/mysql にマウントする。これによりコンテナ内のMySQLデータはmac上で管理されそれは永続化される
+    image: ca_dojo_mysql
+    container_name: "ca_dojo_mysql_container"
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ca_dojo
+      MYSQL_USER: ca_dojo
+      MYSQL_PASSWORD: ca_dojo
+      TZ: 'Asia/Tokyo'
+    ports:
+      - 3306:3306
