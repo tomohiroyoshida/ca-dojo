@@ -59,3 +59,40 @@ func (userCharacter *UserCharacterWithUserID) CreateUserCharacter() (err error) 
 									  userCharacter.UserID, userCharacter.CharacterID)
   return
 }
+
+func GetAllUserCharacters (user User) (userCharacterListResponses []UserCharacter, err error) {
+  rows, err := Db.Query("select id, character_id from user_characters where user_id = ?", user.ID)
+  if err != nil {
+    handleError(err)
+    return
+  }
+  for rows.Next() {
+    characterListResponse := UserCharacter{}
+    err = rows.Scan(&characterListResponse.UserCharacterID, &characterListResponse.CharacterID)
+    if err != nil {
+      handleError(err)
+      return
+    }
+
+    var character Character
+    character, err = getCharacter(characterListResponse.CharacterID)
+    if err != nil {
+      handleError(err)
+      return
+    }
+  
+    characterListResponse.Name = character.Name
+    userCharacterListResponses = append(userCharacterListResponses, characterListResponse)
+    fmt.Println("character response: ", characterListResponse)
+  }
+  return 
+}
+
+func getCharacter(characterID int) (character Character, err error) {
+  err = Db.QueryRow("select name from characters where id = ?", characterID).Scan(&character.ID)
+  if err != nil {
+      handleError(err)
+      return
+  }
+  return
+}

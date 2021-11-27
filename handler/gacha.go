@@ -65,7 +65,7 @@ func HandleCharacterList (w http.ResponseWriter, r *http.Request) () {
 	}
 	fmt.Println("user", user)
 
-	userCharacterListResponses, err := util.GetAllUserCharacters(user)
+	userCharacterListResponses, err := model.GetAllUserCharacters(user)
 	if err != nil {
 		handleError(w, err)
 		return
