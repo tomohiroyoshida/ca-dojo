@@ -43,17 +43,28 @@ type GachaDrawResponse struct {
 
 // キャラ
 type UserCharacter struct {
-  ID int `json:"id"`
-  UserID int `json:"user_id"`
-  CharacterID int `json:"character_id"`
-}
-
-type CharacterWithWeight struct {
-  ID int
-  Name string
-  Weight int
+  UserCharacterID int `json:"userCharacterID"`
+  CharacterID int `json:"characterID"`
+  Name string `json:"name"`
 }
 
 type CharacterListResponse struct {
 	Characters []UserCharacter `json:"characters"`
+}
+type Character struct {
+  ID     int
+  Name   string
+  Weight int
+}
+
+type UserCharacterWithUserID struct {
+  ID int `json:"userCharacterID"`
+  CharacterID int `json:"characterID"`
+  UserID int `json:"userID"`
+}
+
+type UserCharacterListResponse struct {
+  UserCharacterID int `json:"userCharacterID"`
+  CharacterID     int `json:"characterID"`
+  Name            string `json:"name"`
 }

@@ -54,7 +54,7 @@ func (user *User) UpdateUser() (err error) {
 }
 
 // ガチャ
-func (userCharacter *UserCharacter) CreateUserCharacter() (err error) {
+func (userCharacter *UserCharacterWithUserID) CreateUserCharacter() (err error) {
 	_, err = Db.Exec("insert into user_characters (user_id, character_id) values (?, ?)", 
 									  userCharacter.UserID, userCharacter.CharacterID)
   return

@@ -46,3 +46,10 @@ INSERT INTO characters(name, weight) VALUES("ドラゴンH", 3);
 INSERT INTO characters(name, weight) VALUES("ドラゴンI", 4);
 INSERT INTO characters(name, weight) VALUES("ドラゴンJ", 4);
 INSERT INTO characters(name, weight) VALUES("ドラゴンK", 5);
+
+INSERT INTO user_characters(user_id, character_id) VALUES(1, 1);
+INSERT INTO user_characters(user_id, character_id) VALUES(1, 1);
+INSERT INTO user_characters(user_id, character_id) VALUES(1, 2);
+INSERT INTO user_characters(user_id, character_id) VALUES(2, 1);
+INSERT INTO user_characters(user_id, character_id) VALUES(2, 2);
+INSERT INTO user_characters(user_id, character_id) VALUES(2, 2);

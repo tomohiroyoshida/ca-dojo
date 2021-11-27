@@ -17,7 +17,6 @@ func HandleDrawGacha (w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("user", user)
 
-	// request body から name を取り出し userReq に格納
 	len := r.ContentLength
 	body := make([]byte, len)
 	r.Body.Read(body)
@@ -35,7 +34,7 @@ func HandleDrawGacha (w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		
-		userCharacter := model.UserCharacter{
+		userCharacter := model.UserCharacterWithUserID{
 			UserID: user.ID,
 			CharacterID: gachaResult.CharacterID,
     }
@@ -55,4 +54,34 @@ func HandleDrawGacha (w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
   w.Write(output)
+}
+
+func HandleCharacterList (w http.ResponseWriter, r *http.Request) () {
+	token := r.Header.Get("x-token")
+	user, err := model.GetUser(token)
+	if err != nil {
+		handleError(w, err)
+		return
+	}
+	fmt.Println("user", user)
+
+	userCharacterListResponses, err := util.GetAllUserCharacters(user)
+	if err != nil {
+		handleError(w, err)
+		return
+	}
+
+	characterListResponse := model.CharacterListResponse{
+    Characters: userCharacterListResponses,
+  }
+
+	data, err := json.Marshal(&characterListResponse)
+	if err != nil {
+		handleError(w, err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+  w.Write(data)
 }

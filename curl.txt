@@ -32,3 +32,9 @@ curl -X 'POST' \
   -d '{
   "times": 2
 }'
+
+getUserCharacters
+curl -X 'GET' \
+  'http://localhost:8081/character/list' \
+  -H 'accept: application/json' \
+  -H 'x-token: token1'
