@@ -3,4 +3,4 @@ RUN mkdir /go/src/web
 WORKDIR /go/src/web
 ADD . /go/src/web
 
-EXPOSE 8080
+EXPOSE 8081

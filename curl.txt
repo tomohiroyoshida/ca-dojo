@@ -1,0 +1,34 @@
+create user
+curl -X 'POST' \
+  'http://localhost:8081/user/create' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "foo bar"
+}'
+
+get user
+curl -X 'GET' \
+  'http://localhost:8081/user/get' \
+  -H 'accept: application/json' \
+  -H 'x-token: token1'
+
+udpate user
+curl -X 'PUT' \
+  'http://localhost:8081/user/update' \
+  -H 'accept: application/json' \
+  -H 'x-token: token1' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "新山田１"
+}'
+
+draw gacha
+curl -X 'POST' \
+  'http://localhost:8081/gacha/draw' \
+  -H 'accept: application/json' \
+  -H 'x-token: token1' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "times": 2
+}'
