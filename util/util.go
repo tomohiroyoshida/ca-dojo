@@ -2,6 +2,7 @@ package util
 
 import (
 	"ca-dojo/model"
+	"fmt"
 	"log"
 	"math/rand"
 	"time"
@@ -20,33 +21,34 @@ func CreateToken(name string) (string, error) {
 }
 
 func WeightPick() (gachaResult model.GachaResult, err error) {
-  //characterを全部取得(重み昇順でソート)
+  //characterを重み(weight)昇順で全部取得
   characters, err := getAllCharacters()
   if err != nil {
     return
   }
 
   //重みを合計する
-  total_weight, err := sumWeight(characters)
+  totalWeight, err := sumWeight(characters)
   if err != nil {
     return
   }
 
   //乱数生成
   rand.Seed(time.Now().UnixNano())
-  rnd := rand.Intn(int(total_weight))
+  randInt := rand.Intn(int(totalWeight))
+  fmt.Println("int", randInt)
 
   //生成された数字に基づいて返すcharacterを決める
-  var picked model.CharacterWithWeight
+  var resCharacter model.CharacterWithWeight
   for i:=0; i<len(characters); i+=1 {
-    if rnd < int(characters[i].Weight) {
-      picked = characters[i]
+    if randInt > characters[i].Weight {
+      resCharacter = characters[i]
       break
     }
-    rnd -= int(characters[i].Weight)
+    randInt += characters[i].Weight
   }
 
-  gachaResult = model.GachaResult{CharacterID: picked.ID, Name: picked.Name}
+  gachaResult = model.GachaResult{CharacterID: resCharacter.ID, Name: resCharacter.Name}
   return
 }
 
