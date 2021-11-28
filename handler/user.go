@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func handleError (w http.ResponseWriter, err error) {
+func handleError(w http.ResponseWriter, err error) {
 	http.Error(w, err.Error(), http.StatusInternalServerError)
 }
 

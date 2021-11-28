@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func HandleDrawGacha (w http.ResponseWriter, r *http.Request) {
+func HandleDrawGacha(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("x-token")
 	user, err := model.GetUser(token)
 	if err != nil {
@@ -26,37 +26,37 @@ func HandleDrawGacha (w http.ResponseWriter, r *http.Request) {
 	times := gachaReq.Times
 
 	var results []model.GachaResult
-	
+
 	for ; times > 0; times -= 1 {
 		gachaResult, err := util.WeightPick()
 		if err != nil {
 			handleError(w, err)
 			return
 		}
-		
+
 		userCharacter := model.UserCharacterWithUserID{
-			UserID: user.ID,
+			UserID:      user.ID,
 			CharacterID: gachaResult.CharacterID,
-    }
+		}
 		userCharacter.CreateUserCharacter()
-		
+
 		results = append(results, gachaResult)
-	} 
+	}
 
 	gachaDrawResponse := model.GachaDrawResponse{
-    Results: results,
-  }
+		Results: results,
+	}
 	output, err := json.Marshal(&gachaDrawResponse)
-  if err != nil {
+	if err != nil {
 		handleError(w, err)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-  w.Write(output)
+	w.Write(output)
 }
 
-func HandleCharacterList (w http.ResponseWriter, r *http.Request) () {
+func HandleCharacterList(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("x-token")
 	user, err := model.GetUser(token)
 	if err != nil {
@@ -72,8 +72,8 @@ func HandleCharacterList (w http.ResponseWriter, r *http.Request) () {
 	}
 
 	characterListResponse := model.CharacterListResponse{
-    Characters: userCharacterListResponses,
-  }
+		Characters: userCharacterListResponses,
+	}
 
 	data, err := json.Marshal(&characterListResponse)
 	if err != nil {
@@ -83,5 +83,5 @@ func HandleCharacterList (w http.ResponseWriter, r *http.Request) () {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-  w.Write(data)
+	w.Write(data)
 }

@@ -11,7 +11,7 @@ func main() {
 	server := http.Server{
 		Addr: ":8081",
 	}
-  model.Init()
+	model.Init()
 
 	http.HandleFunc("/user/create", handler.HandleCreateUser)
 	http.HandleFunc("/user/get", handler.HandleGetUser)
